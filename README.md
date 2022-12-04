@@ -13,42 +13,50 @@ This project aims to implement the bidirectional heuristic search algorithm guar
 
 The repo can only work on python3.6 or python3.7.
 
-Download the code
-''
+Download the code:
+
+```
 git clone https://github.com/chiyaohuang/bidirectional_astar.git
-'' 
+```
 
 ## Demo
 
 You can select {searching algorithm} and {layout}, and run the following command.
 
 {searching algorithm}: bfs, dfs, ucs, astar, MM
+
 {layout}: tinyMaze, smallMaze, mediumMaze, bigMaze,...
 
 All layouts we discuss in the report are stored in 'bidirectional_astar/layout/'. You can easily reproduce our experiment results by
 
-''
+```
 python pacman.py -l {layout} -p SearchAgent -a fn={searching algorithm}
-''
+```
 
 For the example of MM0
-''
+
+```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=MM
-''
+```
 
 For the example of MM
-''
+
+```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=MM, heuristic=manhattanHeuristic
-''
+```
 
 For the example of A*
-''
+
+```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=astar, heuristic=manhattanHeuristic
-''
+```
 
 ## Members
 
 Chi-Yao Huang[cy.huang@asu.edu](cy.huang@asu.edu)
+
 De-Ru Tsai[dtsai1@asu.edu](dtsai1@asu.edu)
+
 Syed Asad Husain[shusain6@asu.edu](shusain6@asu.edu)
+
 Krithish Goli[kgoli1@asu.edu](kgoli1@asu.edu)
