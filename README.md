@@ -42,13 +42,13 @@ python pacman.py -l mediumMaze -p SearchAgent -a fn=MM
 For the example of MM
 
 ```
-python pacman.py -l mediumMaze -p SearchAgent -a fn=MM, heuristic=manhattanHeuristic
+python pacman.py -l mediumMaze -p SearchAgent -a fn=MM,heuristic=manhattanHeuristic
 ```
 
 For the example of A*
 
 ```
-python pacman.py -l mediumMaze -p SearchAgent -a fn=astar, heuristic=manhattanHeuristic
+python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
 ```
 
 ## Members
