@@ -53,10 +53,10 @@ python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeu
 
 ## Members
 
-Chi-Yao Huang [cy.huang@asu.edu](cy.huang@asu.edu)
+Chi-Yao Huang [(cy.huang@asu.edu)](cy.huang@asu.edu)
 
-De-Ru Tsai [dtsai1@asu.edu](dtsai1@asu.edu)
+De-Ru Tsai [(dtsai1@asu.edu)](dtsai1@asu.edu)
 
-Syed Asad Husain [shusain6@asu.edu](shusain6@asu.edu)
+Syed Asad Husain [(shusain6@asu.edu)](shusain6@asu.edu)
 
-Krithish Goli [kgoli1@asu.edu](kgoli1@asu.edu)
+Krithish Goli [(kgoli1@asu.edu)](kgoli1@asu.edu)
