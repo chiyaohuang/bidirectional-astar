@@ -40,6 +40,7 @@ from game import Actions
 import util
 import time
 import search
+import csv
 
 class GoWestAgent(Agent):
     "An agent that goes West until it can't."
@@ -115,7 +116,16 @@ class SearchAgent(Agent):
         self.actions  = self.searchFunction(problem) # Find a path
         totalCost = problem.getCostOfActions(self.actions)
         print('Path found with total cost of %d in %.1f seconds' % (totalCost, time.time() - starttime))
-        if '_expanded' in dir(problem): print('Search nodes expanded: %d' % problem._expanded)
+        data_items = []
+        data_items.append(str(totalCost))
+        if '_expanded' in dir(problem): 
+            print('Search nodes expanded: %d' % problem._expanded)
+            data_items.append(str(problem._expanded))
+
+        with open('costs.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(data_items)
+            f.close()
 
     def getAction(self, state):
         """

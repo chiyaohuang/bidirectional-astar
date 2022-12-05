@@ -466,4 +466,4 @@ bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
 ucs = uniformCostSearch
-MM = meetMiddle
+mm = meetMiddle

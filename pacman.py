@@ -47,6 +47,7 @@ from util import nearestPoint
 from util import manhattanDistance
 import util, layout
 import sys, types, time, random, os
+import csv
 
 ###################################################
 # YOUR INTERFACE TO THE PACMAN WORLD: A GameState #
@@ -289,7 +290,14 @@ class ClassicGameRules:
         if state.isLose(): self.lose(state, game)
 
     def win( self, state, game ):
-        if not self.quiet: print("Pacman emerges victorious! Score: %d" % state.data.score)
+        if not self.quiet: 
+            print("Pacman emerges victorious! Score: %d" % state.data.score)
+            data_items = []
+            data_items.append(str(state.data.score))
+            with open('scores.csv', 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(data_items)
+                f.close()
         game.gameOver = True
 
     def lose( self, state, game ):
