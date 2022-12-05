@@ -1,16 +1,12 @@
 import pandas as pd
 from math import sqrt
 import csv
+from scipy import stats
 
 Layout = ['tiny', 'small','medium', 'big']
 Search = ['dfs', 'bfs', 'ucs', 'astar,heuristic=manhattanHeuristic']
 
-testheader = ['Map', 'Search Algorithm 1', 'Search Algorithm 2', 'Calculated T-Score', 'Two-Tailed T-Score', 'One-Tailed T-Score']
-
-n = 20 #number of samples taken
-
-ttt_val = 2.093 # two-tailed t-score for degree of freedom n-1 at alpha 0.05 [from table]
-ott_val = 1.729 # one-tailed t-score for degree of freedom n-1 at alpha 0.05 [from table]
+testheader = ['Map', 'Search Algorithm 1', 'Search Algorithm w', 'Mean Expanded Nodes using S1', 'Mean Expanded Nodes using S2', 'T-score', 'P-value']
 
 with open('ttest_mm.csv', 'w', newline='') as f:
   writer = csv.writer(f)
@@ -32,6 +28,7 @@ for l in Layout:
   df1 = df1.drop('index', axis=1)
   df1 = df1.drop('Search Algorithm', axis=1)
   df1 = df1.rename(columns={'Number of Nodes Expanded': 'mm'})
+  col1 = df1['mm'].copy()
 
   for s in Search:
 
@@ -40,28 +37,24 @@ for l in Layout:
     df2 = df2.drop('index', axis=1)
     df2 = df2.drop('Search Algorithm', axis=1)
     df2 = df2.rename(columns={'Number of Nodes Expanded': s})
+    col2 = df2[s].copy()
 
     dfnew = df1.join(df2)
     dfnew.reset_index()
 
-    diff = dfnew['mm']-dfnew[s]
-    diff = pd.DataFrame(diff, columns = ['diff'])
-    dfnew = dfnew.join(diff)
-    dftemp = pd.DataFrame()
-    dftemp['diffc'] = dfnew['diff'].copy()
-    sdiff = dfnew['diff']*dftemp['diffc']
-    sdiff = pd.DataFrame(sdiff, columns = ['sdiff'])
-    dfnew = dfnew.join(sdiff)
-    a = dfnew['diff'].mean()
-    b = dfnew['sdiff'].mean()
-    tscore = (a/n)/(sqrt((b-((a*a)/(n)))/((n-1)*(n))))
+    a = dfnew['mm'].mean()
+    b = dfnew[s].mean()
 
     data_items.append(l)
     data_items.append('mm')
     data_items.append(s)
+    data_items.append(a)
+    data_items.append(b)
+
+    tscore, pval = stats.ttest_rel(col1, col2)
+
     data_items.append(tscore)
-    data_items.append(ttt_val)
-    data_items.append(ott_val)
+    data_items.append(pval)
 
     with open('ttest_mm.csv', 'a', newline='') as f:
       writer = csv.writer(f)
@@ -92,6 +85,7 @@ for l in Layout:
   df1 = df1.drop('index', axis=1)
   df1 = df1.drop('Search Algorithm', axis=1)
   df1 = df1.rename(columns={'Number of Nodes Expanded': 'mm0'})
+  col1 = df1['mm0'].copy()
 
   for s in Search:
 
@@ -100,28 +94,24 @@ for l in Layout:
     df2 = df2.drop('index', axis=1)
     df2 = df2.drop('Search Algorithm', axis=1)
     df2 = df2.rename(columns={'Number of Nodes Expanded': s})
+    col2 = df2[s].copy()
 
     dfnew = df1.join(df2)
     dfnew.reset_index()
 
-    diff = dfnew['mm0']-dfnew[s]
-    diff = pd.DataFrame(diff, columns = ['diff'])
-    dfnew = dfnew.join(diff)
-    dftemp = pd.DataFrame()
-    dftemp['diffc'] = dfnew['diff'].copy()
-    sdiff = dfnew['diff']*dftemp['diffc']
-    sdiff = pd.DataFrame(sdiff, columns = ['sdiff'])
-    dfnew = dfnew.join(sdiff)
-    a = dfnew['diff'].mean()
-    b = dfnew['sdiff'].mean()
-    tscore = (a/n)/(sqrt((b-((a*a)/(n)))/((n-1)*(n))))
+    a = dfnew['mm0'].mean()
+    b = dfnew[s].mean()
 
     data_items.append(l)
     data_items.append('mm0')
     data_items.append(s)
+    data_items.append(a)
+    data_items.append(b)
+
+    tscore, pval = stats.ttest_rel(col1, col2)
+
     data_items.append(tscore)
-    data_items.append(ttt_val)
-    data_items.append(ott_val)
+    data_items.append(pval)
 
     with open('ttest_mm0.csv', 'a', newline='') as f:
       writer = csv.writer(f)
@@ -152,34 +142,31 @@ for l in Layout:
   df1 = df1.drop('index', axis=1)
   df1 = df1.drop('Search Algorithm', axis=1)
   df1 = df1.rename(columns={'Number of Nodes Expanded': 'mm'})
-
+  col1 = df1['mm'].copy()
+  
   df2 = df[df['Search Algorithm']=='mm']
   df2 = df2.reset_index()
   df2 = df2.drop('index', axis=1)
   df2 = df2.drop('Search Algorithm', axis=1)
   df2 = df2.rename(columns={'Number of Nodes Expanded': 'mm0'})
+  col2 = df2['mm0'].copy()
 
   dfnew = df1.join(df2)
   dfnew.reset_index()
 
-  diff = dfnew['mm']-dfnew['mm0']
-  diff = pd.DataFrame(diff, columns = ['diff'])
-  dfnew = dfnew.join(diff)
-  dftemp = pd.DataFrame()
-  dftemp['diffc'] = dfnew['diff'].copy()
-  sdiff = dfnew['diff']*dftemp['diffc']
-  sdiff = pd.DataFrame(sdiff, columns = ['sdiff'])
-  dfnew = dfnew.join(sdiff)
-  a = dfnew['diff'].mean()
-  b = dfnew['sdiff'].mean()
-  tscore = (a/n)/(sqrt((b-((a*a)/(n)))/((n-1)*(n))))
+  a = dfnew['mm'].mean()
+  b = dfnew['mm0'].mean()
 
   data_items.append(l)
   data_items.append('mm')
   data_items.append('mm0')
+  data_items.append(a)
+  data_items.append(b)
+
+  tscore, pval = stats.ttest_rel(col1, col2)
+
   data_items.append(tscore)
-  data_items.append(ttt_val)
-  data_items.append(ott_val)
+  data_items.append(pval)
 
   with open('ttest_mm_mm0.csv', 'a', newline='') as f:
     writer = csv.writer(f)
