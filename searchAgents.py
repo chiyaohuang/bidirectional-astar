@@ -260,10 +260,10 @@ class StayWestSearchAgent(SearchAgent):
         costFn = lambda pos: 2 ** pos[0]
         self.searchType = lambda state: PositionSearchProblem(state, costFn)
 
-def manhattanHeuristic(position_1, position_2, problem, info={}):
+def manhattanHeuristic(position, problem, info={}):
     "The Manhattan distance heuristic for a PositionSearchProblem"
-    xy1 = position_1
-    xy2 = position_2
+    xy1 = position
+    xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
 def euclideanHeuristic(position, problem, info={}):
@@ -291,7 +291,6 @@ class CornersProblem(search.SearchProblem):
         self.startingPosition = startingGameState.getPacmanPosition()
         top, right = self.walls.height-2, self.walls.width-2
         self.corners = ((1,1), (1,top), (right, 1), (right, top))
-        self.goal = (1,1)
         for corner in self.corners:
             if not startingGameState.hasFood(*corner):
                 print('Warning: no food in corner ' + str(corner))
@@ -299,7 +298,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        self.myStartState = (self.startingPosition, self.corners)
+        self.myStartState = (self.startingPosition, self.corners)   # my state definition in this problem - (pos, remain corners)
 
     def getStartState(self):
         """
@@ -309,7 +308,6 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         return self.myStartState
 
-
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
@@ -317,7 +315,6 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         # if the length of the remain corners == 0, return True
         return (len(state[1]) == 0)
-
 
     def getSuccessors(self, state):
         """
@@ -359,7 +356,6 @@ class CornersProblem(search.SearchProblem):
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
-
     def getCostOfActions(self, actions):
         """
         Returns the cost of a particular sequence of actions.  If those actions
@@ -373,8 +369,7 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
-
-def cornersHeuristic(state, state2, problem):
+def cornersHeuristic(state, problem):
     """
     A heuristic for the CornersProblem that you defined.
 
@@ -477,7 +472,6 @@ class FoodSearchProblem:
                 return 999999
             cost += 1
         return cost
-
 
 def mazeDistance(point1, point2, gameState):
     """

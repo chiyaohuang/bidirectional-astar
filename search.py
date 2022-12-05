@@ -16,8 +16,9 @@
 In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
-import sys
+
 import util
+import sys
 import searchAgents
 
 class SearchProblem:
@@ -212,7 +213,7 @@ def uniformCostSearch(problem):
     print("Failed. Unable to find the goal!")
     return []
 
-def nullHeuristic(position_1, position_2, problem=None):
+def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
@@ -260,7 +261,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         for successor in problem.getSuccessors(node[0]):
             # successor format: ((34, 15), 'South', 1)
             next_cumulative_cost = cumulative_cost + successor[2]
-            cost = next_cumulative_cost + heuristic(successor[0], problem.goal, problem)                # cost = uniform cost + greedy cost
+            cost = next_cumulative_cost + heuristic(successor[0], problem)                # cost = uniform cost + greedy cost
             fringe.push([successor, node, next_cumulative_cost], cost)                    # ([child, parent, next_cumulative_cost], cost)
 
     print("Failed. Unable to find the goal!")
@@ -269,6 +270,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
 def meetMiddle(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first in the priority set"""
+
+    def heuristicFunc(position_1, position_2):
+        xy1 = position_1
+        xy2 = position_2
+        return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
     def getOppositeAction(action):
         if action == 'North':
@@ -296,23 +302,23 @@ def meetMiddle(problem, heuristic=nullHeuristic):
     epsilon = 1
 
     while (open_F.isEmpty() == False) and (open_B.isEmpty() == False):
-        
-        [node_F, parent_F, pr_F, f_F, g_F] = open_F.top()       # node = [state, direction, cost]
-        [node_B, parent_B, pr_B, f_B, g_B] = open_B.top()       # node = [state, direction, cost]
+
+        [node_F, parent_F, pr_F, f_F, g_F] = open_F.top()  # node = [state, direction, cost]
+        [node_B, parent_B, pr_B, f_B, g_B] = open_B.top()  # node = [state, direction, cost]
 
         # determine expand from forward or backward
-        cost = min(pr_F, pr_B)    
+        cost = min(pr_F, pr_B)
 
         # get f_min_F, f_min_B, g_min_F, g_min_B
         f_min_F = sys.maxsize
         f_min_B = sys.maxsize
         g_min_F = sys.maxsize
         g_min_B = sys.maxsize
-        
+
         for i in range(open_F.size()):
-            f_min_F = min(f_min_F, open_F.getItem(i)[2][2])     # open_F.getItem(i)[2] = [node_F, pr_F, f_F, g_F]
+            f_min_F = min(f_min_F, open_F.getItem(i)[2][2])  # open_F.getItem(i)[2] = [node_F, pr_F, f_F, g_F]
             g_min_F = min(g_min_F, open_F.getItem(i)[2][3])
-    
+
         for i in range(open_B.size()):
             f_min_B = min(f_min_B, open_B.getItem(i)[2][2])
             g_min_B = min(g_min_B, open_B.getItem(i)[2][3])
@@ -321,43 +327,45 @@ def meetMiddle(problem, heuristic=nullHeuristic):
             print("Success. Construct the path!")
             if type(problem) is searchAgents.PositionSearchProblem:
                 problem.displayExpand(meet_node[0], success=True)
+                print(meet_node[0])
 
-            # ----------- construct forward path ----------- 
+            # ----------- construct forward path -----------
             # find meet_node in open_F
             [curr, parent, pr, f, g] = open_F.getItemWithPos(meet_node[0])
 
             # record the parent of this pos
             parents_F[curr[0]] = parent
-            
-            while curr[0] != problem.getStartState():     # loop from meet point to the start
-                parent = parents_F[curr[0]]               # get the parent of current state from dictionary
-                actions_F.append(curr[1])                 # store the action to the list, which is one of 'North', 'West', 'East', or 'South'
+
+            while curr[0] != problem.getStartState():  # loop from meet point to the start
+                parent = parents_F[curr[0]]  # get the parent of current state from dictionary
+                actions_F.append(
+                    curr[1])  # store the action to the list, which is one of 'North', 'West', 'East', or 'South'
                 curr = parent
 
-            actions_F.reverse()   # reverse the action list to start in the start state
-            
-            # ----------- construct backward path ----------- 
+            actions_F.reverse()  # reverse the action list to start in the start state
+
+            # ----------- construct backward path -----------
             # find meet_node in open_B
             [curr, parent, pr, f, g] = open_B.getItemWithPos(meet_node[0])
 
             # record the parent of this pos
             parents_B[curr[0]] = parent
 
-            while curr[0] != problem.goal:                # loop from meetPoint to the goal
-                parent = parents_B[curr[0]]               # get the parent of current state from dictionary
-                action = getOppositeAction(curr[1])       # store the action in opposite directions for backward
+            while curr[0] != problem.goal:  # loop from meetPoint to the goal
+                parent = parents_B[curr[0]]  # get the parent of current state from dictionary
+                action = getOppositeAction(curr[1])  # store the action in opposite directions for backward
                 actions_B.append(action)
                 curr = parent
 
-            # ----------- connect forward and backward path ----------- 
+            # ----------- connect forward and backward path -----------
             actions = actions_F + actions_B
-            
+
             return actions
-        
-        # ----------- expand in the forward direction ----------- 
+
+        # ----------- expand in the forward direction -----------
         if cost == pr_F:
             open_F.pop()
-    
+
             # for display purpose
             if type(problem) is searchAgents.PositionSearchProblem:
                 problem.displayExpand(node_F[0], success=False)
@@ -367,37 +375,42 @@ def meetMiddle(problem, heuristic=nullHeuristic):
 
             # record the parent of this pos
             parents_F[node_F[0]] = parent_F
-    
+
             # push the child of the node to the queue
             for successor in problem.getSuccessors(node_F[0]):
                 # successor format: ((34, 15), 'South', 1)
-    
+
                 cost_n_c = successor[2]
                 g_F_c = g_F + cost_n_c
-                h_F_c = heuristic(successor[0], problem.goal, problem)
+                if heuristic==nullHeuristic:
+                    h_F_c = 0
+                else:
+                    h_F_c = heuristicFunc(successor[0], problem.goal)
                 f_F_c = g_F_c + h_F_c
-    
+
                 if ((open_F.exist(successor[0])) or (successor[0] in closed_F)) and (g_F_c <= (g_F + cost_n_c)):
                     continue
 
                 if (open_F.exist(successor[0])) or (successor[0] in closed_F):
                     open_F.remove(successor)  # TODO : add remove() in priority queue function
-                    closed_F.remove(successor)   
-    
-                # add c to open_F
+                    closed_F.remove(successor)
+
+                    # add c to open_F
                 pr_c = max(f_F_c, 2 * g_F_c)
-                open_F.push([successor, node_F, pr_c, f_F_c, g_F_c], pr_c)  # ([child, parent, priority_queue_value, f_F_c, g_F_c], priority_queue_value)
-                
+                open_F.push([successor, node_F, pr_c, f_F_c, g_F_c],
+                            pr_c)  # ([child, parent, priority_queue_value, f_F_c, g_F_c], priority_queue_value)
+
                 if open_B.exist(successor[0]):
-                    node_in_open_B = open_B.getItemWithPos(successor[0])   # node_in_open_B: [node, parent, priority_queue_value, f, g]
+                    node_in_open_B = open_B.getItemWithPos(
+                        successor[0])  # node_in_open_B: [node, parent, priority_queue_value, f, g]
                     g_B_c = node_in_open_B[4]
 
                     # utility = min(utility, g_B_c + g_F_c)
                     if utility > g_F_c + g_B_c:
                         meet_node = successor
                         utility = g_F_c + g_B_c
-    
-        # ----------- expand in the backward direction ----------- 
+
+        # ----------- expand in the backward direction -----------
         else:
             open_B.pop()
 
@@ -410,29 +423,34 @@ def meetMiddle(problem, heuristic=nullHeuristic):
 
             # record the parent of this pos
             parents_B[node_B[0]] = parent_B
-    
+
             # push the child of the node to the queue
             for successor in problem.getSuccessors(node_B[0]):
                 # successor format: ((34, 15), 'South', 1)
-    
+
                 cost_n_c = successor[2]
                 g_B_c = g_B + cost_n_c
-                h_B_c = heuristic(successor[0], problem.getStartState(), problem)
+                if heuristic==nullHeuristic:
+                    h_B_c = 0
+                else:
+                    h_B_c = heuristicFunc(successor[0], problem.getStartState())
                 f_B_c = g_B_c + h_B_c
-    
+
                 if ((open_B.exist(successor[0])) or (successor[0] in closed_B)) and (g_B_c <= (g_B + cost_n_c)):
                     continue
 
                 if (open_B.exist(successor[0])) or (successor[0] in closed_B):
                     open_B.remove(successor)  # TODO : add remove() in priority queue function
-                    closed_B.remove(successor)   
-    
-                # add c to open_B
+                    closed_B.remove(successor)
+
+                    # add c to open_B
                 pr_c = max(f_B_c, 2 * g_B_c)
-                open_B.push([successor, node_B, pr_c, f_B_c, g_B_c], pr_c)  # ([child, parent, priority_queue_value, f_B_c, g_B_c], priority_queue_value)
-                
+                open_B.push([successor, node_B, pr_c, f_B_c, g_B_c],
+                            pr_c)  # ([child, parent, priority_queue_value, f_B_c, g_B_c], priority_queue_value)
+
                 if open_F.exist(successor[0]):
-                    node_in_open_F = open_F.getItemWithPos(successor[0])   # node_in_open_F: [node, parent, priority_queue_value, f, g]
+                    node_in_open_F = open_F.getItemWithPos(
+                        successor[0])  # node_in_open_F: [node, parent, priority_queue_value, f, g]
                     g_F_c = node_in_open_F[4]
 
                     # utility = min(utility, g_B_c + g_F_c)
@@ -440,10 +458,8 @@ def meetMiddle(problem, heuristic=nullHeuristic):
                         meet_node = successor
                         utility = g_B_c + g_F_c
 
-
     print("Failed. Unable to find the path!")
     return []
-
 
 # Abbreviations
 bfs = breadthFirstSearch
