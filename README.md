@@ -20,7 +20,7 @@ git clone https://github.com/chiyaohuang/bidirectional_astar.git
 ```
 
 Ideally, you can run under `python3.6` and `python3.7`.
-If you cannot directly run Demo as follow, you can consider to use [anaconda](https://www.anaconda.com/). It will take few minutes to build the environment.
+If you cannot directly run Demo as follow, you have to use [anaconda](https://www.anaconda.com/). It will take few minutes to build the environment.
 
 ```
 conda env create -f Bi-Astar.yaml
