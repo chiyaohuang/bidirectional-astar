@@ -71,8 +71,22 @@ The result will be stored in 'bidirectional_astar/finalresult.csv'
 
 You can also reproduce the T-Test by
 
+For the T-Test of the optimal cost
+
 ```
-python ttest.py
+python ttest_cost.py
+```
+
+For the T-Test of the expanded nodes
+
+```
+python ttest_nodes.py
+```
+
+For the T-Test of the scores
+
+```
+python ttest_scores.py
 ```
 
 The result will be stored in 'bidirectional_astar/ttest_mm.csv', 'bidirectional_astar/ttest_mm0.csv', and 'bidirectional_astar/ttest_mm_mm0.csv' 
