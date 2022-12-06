@@ -20,8 +20,7 @@ git clone https://github.com/chiyaohuang/bidirectional_astar.git
 ```
 
 Ideally, you can run under `python3.6` and `python3.7`.
-
-If you cannot directly run DEMO as follow, you can consider to use [anaconda](https://www.anaconda.com/). It will take few minutes to build the environment.
+If you cannot directly run Demo as follow, you can consider to use [anaconda](https://www.anaconda.com/). It will take few minutes to build the environment.
 
 ```
 conda env create -f Bi-Astar.yaml
@@ -31,7 +30,7 @@ conda activate Bi-Astar
 
 ## Demo
 
-You can select `{searching algorithm}` and `{layout}`, and run the following command.
+You can select `{searching algorithm}` and `{layout}`, and run the following commands.
 
 `{searching algorithm}`: `bfs`, `dfs`, `ucs`, `astar`, `mm`
 
@@ -43,19 +42,19 @@ All layouts we discuss in the report are stored in `bidirectional_astar/layout/`
 python pacman.py -l {layout} -p SearchAgent -a fn={searching algorithm}
 ```
 
-For the example of `MM0`
+For the example of `MM0`:
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=mm
 ```
 
-For the example of `MM`
+For the example of `MM`:
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=mm,heuristic=manhattanHeuristic
 ```
 
-For the example of `A*`
+For the example of `A*`:
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
@@ -70,6 +69,7 @@ python script.py
 ```
 
 The result will be stored in `bidirectional_astar/finalresult.csv`
+
 
 You can also reproduce the T-Test by
 
@@ -91,7 +91,7 @@ For the T-Test of the scores:
 python ttest_scores.py
 ```
 
-The result will be stored in `bidirectional_astar/ttest_mm.csv`, `bidirectional_astar/ttest_mm0.csv`, and `bidirectional_astar/ttest_mm_mm0.csv`. 
+The results will be stored in `bidirectional_astar/ttest_mm.csv`, `bidirectional_astar/ttest_mm0.csv`, and `bidirectional_astar/ttest_mm_mm0.csv`. 
 
 
 ## Members
