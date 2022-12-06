@@ -11,13 +11,15 @@ This project aims to implement the bidirectional heuristic search algorithm guar
 
 ## Installation
 
-The repo can only work on python3.6 or python3.7.
+The repo can only work on `python3.6` or `python3.7`.
 
 Download the code:
 
 ```
 git clone https://github.com/chiyaohuang/bidirectional_astar.git
 ```
+
+Ideally, you can run under `python3.6` and `python3.7`.
 
 If you cannot directly run DEMO as follow, you can consider to use [anaconda](https://www.anaconda.com/). It will take few minutes to build the environment.
 
@@ -29,31 +31,31 @@ conda activate Bi-Astar
 
 ## Demo
 
-You can select {searching algorithm} and {layout}, and run the following command.
+You can select `{searching algorithm}` and `{layout}`, and run the following command.
 
-{searching algorithm}: bfs, dfs, ucs, astar, MM
+`{searching algorithm}`: `bfs`, `dfs`, `ucs`, `astar`, `mm`
 
-{layout}: tinyMaze, smallMaze, mediumMaze, bigMaze,...
+`{layout}`: `tinyMaze`, `smallMaze`, `mediumMaze`, `bigMaze`,...
 
-All layouts we discuss in the report are stored in 'bidirectional_astar/layout/'. You can easily reproduce our experiment results by
+All layouts we discuss in the report are stored in `bidirectional_astar/layout/`. You can easily reproduce our experiment results by
 
 ```
 python pacman.py -l {layout} -p SearchAgent -a fn={searching algorithm}
 ```
 
-For the example of MM0
+For the example of `MM0`
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=mm
 ```
 
-For the example of MM
+For the example of `MM`
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=mm,heuristic=manhattanHeuristic
 ```
 
-For the example of A*
+For the example of `A*`
 
 ```
 python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
@@ -61,43 +63,43 @@ python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeu
 
 ## T-Test
 
-You can run over our layouts by
+You can run over our test maps by
 
 ```
 python script.py
 ```
 
-The result will be stored in 'bidirectional_astar/finalresult.csv'
+The result will be stored in `bidirectional_astar/finalresult.csv`
 
 You can also reproduce the T-Test by
 
-For the T-Test of the optimal cost
+For the T-Test of the optimal cost:
 
 ```
 python ttest_cost.py
 ```
 
-For the T-Test of the expanded nodes
+For the T-Test of the expanded nodes:
 
 ```
 python ttest_nodes.py
 ```
 
-For the T-Test of the scores
+For the T-Test of the scores:
 
 ```
 python ttest_scores.py
 ```
 
-The result will be stored in 'bidirectional_astar/ttest_mm.csv', 'bidirectional_astar/ttest_mm0.csv', and 'bidirectional_astar/ttest_mm_mm0.csv' 
+The result will be stored in `bidirectional_astar/ttest_mm.csv`, `bidirectional_astar/ttest_mm0.csv`, and `bidirectional_astar/ttest_mm_mm0.csv`. 
 
 
 ## Members
 
-Chi-Yao Huang [(cy.huang@asu.edu)](cy.huang@asu.edu)
+Chi-Yao Huang ([cy.huang@asu.edu](cy.huang@asu.edu))
 
-De-Ru Tsai [(dtsai1@asu.edu)](dtsai1@asu.edu)
+De-Ru Tsai ([dtsai1@asu.edu](dtsai1@asu.edu))
 
-Syed Asad Husain [(shusain6@asu.edu)](shusain6@asu.edu)
+Syed Asad Husain ([shusain6@asu.edu](shusain6@asu.edu))
 
-Krithish Goli [(kgoli1@asu.edu)](kgoli1@asu.edu)
+Krithish Goli ([kgoli1@asu.edu](kgoli1@asu.edu))
