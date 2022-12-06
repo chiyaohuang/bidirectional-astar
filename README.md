@@ -2,7 +2,7 @@
 
 This repo is the final team project for ASU CSE571.
 
-Our report: [Bidirectional search in the Pac-Man Domain](link)
+Our report: [Bidirectional Search in Pac-Man Domain](https://drive.google.com/file/d/1m91IiQnZbji14fxWS17oPzdyivXpf3Y5/view?usp=share_link)
 
 ## Introduction
 
